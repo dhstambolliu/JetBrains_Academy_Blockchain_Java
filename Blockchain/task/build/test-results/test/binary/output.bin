@@ -1,158 +1,566 @@
 [1;31m
 Start test 1[0m
-3No valid blockchain found: new blockchain created.
+Block: 
+Created by miner # 21
+21gets 100 VC
+Id: 1
+Timestamp: 1646502823269
+Magic number: 1081729916
+Hash of the previous block: 
+0
+Hash of the block: 
+Adc5dbc29bf748e526d878b73f8e90a1d0c952c101132e2eba7653ea629ae8dea
+Block data: 
+ sent 100 to miner 21
+$Block was generating for 0 seconds 
+N stays the same
 
-Block:
-Created by miner # 1
-Id: 1
-Timestamp: 1646501062437
-#Magic number: 4783314300212976079
-Hash of the previous block: 
-0
-Hash of the block: 
-B06217b205ba35c3fa64533c6f8dd631dbfd079fd47d63f87ff8f6ac5a54e62c0
-Block data: no messages
-$Block was generating for 0 seconds
-N was increased to 1
-
-Block:
-Created by miner # 3
-Id: 2
-Timestamp: 1646501062502
-$Magic number: -2141856496496171611
-Hash of the previous block: 
-B06217b205ba35c3fa64533c6f8dd631dbfd079fd47d63f87ff8f6ac5a54e62c0
-Hash of the block: 
-B09e6749f0c43d8f6f88aaa3ba4f4d762bad3d8aa7bfd8b4088a68c6bad1890f2
+Block: 
+Created by miner # 21
+21gets 100 VC
+Id: 2
+Timestamp: 1646502823410
+Magic number: 873564348
+Hash of the previous block: 
+Adc5dbc29bf748e526d878b73f8e90a1d0c952c101132e2eba7653ea629ae8dea
+Hash of the block: 
+Ac2da0dcc26a01e6826772a14a2b52efc9642d187f8b55af8b3c0e6bb107a1275
 Block data: 
-Evelio: I love basketball
-Evelio: Life is good
-Aramys: Hello
-Armando: Interesting...
-Charles: I love Java
-$Block was generating for 0 seconds
-N was increased to 2
-
-Block:
-Created by miner # 1
-Id: 3
-Timestamp: 1646501062556
-#Magic number: 5096542775316476028
-Hash of the previous block: 
-B09e6749f0c43d8f6f88aaa3ba4f4d762bad3d8aa7bfd8b4088a68c6bad1890f2
-Hash of the block: 
-B00e51bb32c39af3cf18611012dccd34c1949d885138348e57aec3ac7160f6e96
-Block data: no messages
-$Block was generating for 0 seconds
-N was increased to 3
-
-Block:
-Created by miner # 1
-Id: 4
-Timestamp: 1646501062583
-#Magic number: 2178595122268618511
-Hash of the previous block: 
-B00e51bb32c39af3cf18611012dccd34c1949d885138348e57aec3ac7160f6e96
-Hash of the block: 
-B0000be4170f722edef03bb6c3d75a15c831ea4ca3a3a89e588425292b10f85fb
+"MsgID: 1 miner24 sent 35 to User1
+"MsgID: 2 miner25 sent 35 to User2
+"MsgID: 3 miner26 sent 35 to User3
+"MsgID: 4 miner27 sent 35 to User4
+ sent 100 to miner 21
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 22
+22gets 100 VC
+Id: 3
+Timestamp: 1646502823457
+Magic number: 615139375
+Hash of the previous block: 
+Ac2da0dcc26a01e6826772a14a2b52efc9642d187f8b55af8b3c0e6bb107a1275
+Hash of the block: 
+A7e181fa690913aee75b4a83ecff1a51981dc9f68777334f4083f6003fc75efd6
 Block data: 
- Aramys: It's sunny outside here
-Charles: I am getting old!
-Armando: Hello
-!Evelio: It's sunny outside here
-$Block was generating for 0 seconds
-N was increased to 4
-
-Block:
-Created by miner # 2
-Id: 5
-Timestamp: 1646501062672
-$Magic number: -3977360398597194013
-Hash of the previous block: 
-B0000be4170f722edef03bb6c3d75a15c831ea4ca3a3a89e588425292b10f85fb
-Hash of the block: 
-B0000409f4a8530015f50da228e2ecb6b576b6e5e888f8d6fcea24927c4db4936
+"MsgID: 5 miner26 sent 35 to User1
+"MsgID: 6 miner24 sent 35 to User2
+"MsgID: 7 miner26 sent 35 to User3
+"MsgID: 8 miner26 sent 35 to User4
+ sent 100 to miner 22
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 22
+22gets 100 VC
+Id: 4
+Timestamp: 1646502823504
+Magic number: 932392500
+Hash of the previous block: 
+A7e181fa690913aee75b4a83ecff1a51981dc9f68777334f4083f6003fc75efd6
+Hash of the block: 
+A7dd3689f84518913085def8fa4c6cd34518bd6b5cb147abccf15c5cdcc59ea50
 Block data: 
-Charles: How are you?
-Charles: I love basketball
-"Aramys: How bout' those Dolphins?
-&Armando: What is the meaning of life?
-Evelio: I am getting old!
-$Block was generating for 0 seconds
-N was increased to 5
+"MsgID: 9 miner24 sent 35 to User1
+#MsgID: 10 miner27 sent 35 to User2
+#MsgID: 11 miner25 sent 35 to User3
+#MsgID: 12 miner26 sent 35 to User4
+ sent 100 to miner 22
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 23
+23gets 100 VC
+Id: 5
+Timestamp: 1646502823551
+Magic number: 2129593972
+Hash of the previous block: 
+A7dd3689f84518913085def8fa4c6cd34518bd6b5cb147abccf15c5cdcc59ea50
+Hash of the block: 
+A47b1c4e3d14d8a63968f3b7db6e64290f581b0bc56342260701afe6d118d26c7
+Block data: 
+#MsgID: 13 miner25 sent 35 to User1
+#MsgID: 14 miner24 sent 35 to User2
+#MsgID: 15 miner27 sent 35 to User3
+#MsgID: 16 miner25 sent 35 to User4
+ sent 100 to miner 23
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 23
+23gets 100 VC
+Id: 6
+Timestamp: 1646502823582
+Magic number: 779407877
+Hash of the previous block: 
+A47b1c4e3d14d8a63968f3b7db6e64290f581b0bc56342260701afe6d118d26c7
+Hash of the block: 
+A67263c2dbf401f0de834581b71ccc8d80d992fdd90643baccb4b427afdea50ab
+Block data: 
+#MsgID: 17 miner27 sent 35 to User1
+#MsgID: 18 miner24 sent 35 to User2
+#MsgID: 19 miner26 sent 35 to User3
+#MsgID: 20 miner25 sent 35 to User4
+ sent 100 to miner 23
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 20
+20gets 100 VC
+Id: 7
+Timestamp: 1646502823613
+Magic number: 2076481240
+Hash of the previous block: 
+A67263c2dbf401f0de834581b71ccc8d80d992fdd90643baccb4b427afdea50ab
+Hash of the block: 
+Ad8c1f82947791d34dd3f3f92793e5592ac25b0ee3baedcca013e4b0afbf1decf
+Block data: 
+#MsgID: 21 miner24 sent 35 to User1
+#MsgID: 22 miner25 sent 35 to User2
+#MsgID: 23 miner27 sent 35 to User3
+#MsgID: 24 miner27 sent 35 to User4
+ sent 100 to miner 20
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 22
+22gets 100 VC
+Id: 8
+Timestamp: 1646502823660
+Magic number: 1885581984
+Hash of the previous block: 
+Ad8c1f82947791d34dd3f3f92793e5592ac25b0ee3baedcca013e4b0afbf1decf
+Hash of the block: 
+Aff0ed0d5d08b38604dbf69233d3c5148a7baf66c4555f34a97992cb17968f69f
+Block data: 
+#MsgID: 25 miner24 sent 35 to User1
+#MsgID: 26 miner27 sent 35 to User2
+#MsgID: 27 miner26 sent 35 to User3
+#MsgID: 28 miner27 sent 35 to User4
+ sent 100 to miner 22
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 22
+22gets 100 VC
+Id: 9
+Timestamp: 1646502823707
+Magic number: 310807641
+Hash of the previous block: 
+Aff0ed0d5d08b38604dbf69233d3c5148a7baf66c4555f34a97992cb17968f69f
+Hash of the block: 
+Abcb37e2afd33c181e6dfdb445c17d5ef1b4f0629f41f1c2c9c860f8440f3a7e0
+Block data: 
+#MsgID: 29 miner27 sent 35 to User1
+#MsgID: 30 miner26 sent 35 to User2
+#MsgID: 31 miner25 sent 35 to User3
+#MsgID: 32 miner26 sent 35 to User4
+ sent 100 to miner 22
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 23
+23gets 100 VC
+Id: 10
+Timestamp: 1646502823738
+Magic number: 895731868
+Hash of the previous block: 
+Abcb37e2afd33c181e6dfdb445c17d5ef1b4f0629f41f1c2c9c860f8440f3a7e0
+Hash of the block: 
+Ad3d2d4cbe3b5e40880b2cf93fc59ffd88c0b281c3fd0ee1c32503722e67c495c
+Block data: 
+#MsgID: 33 miner26 sent 35 to User1
+#MsgID: 34 miner25 sent 35 to User2
+#MsgID: 35 miner27 sent 35 to User3
+#MsgID: 36 miner24 sent 35 to User4
+ sent 100 to miner 23
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 23
+23gets 100 VC
+Id: 11
+Timestamp: 1646502823785
+Magic number: 1993195840
+Hash of the previous block: 
+Ad3d2d4cbe3b5e40880b2cf93fc59ffd88c0b281c3fd0ee1c32503722e67c495c
+Hash of the block: 
+Aa8c5d393e5c07f6fb440c822060bad8d75a18858f818c46b70425422e1115aa2
+Block data: 
+#MsgID: 37 miner25 sent 35 to User1
+#MsgID: 38 miner26 sent 35 to User2
+#MsgID: 39 miner27 sent 35 to User3
+#MsgID: 40 miner27 sent 35 to User4
+ sent 100 to miner 23
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 20
+20gets 100 VC
+Id: 12
+Timestamp: 1646502823832
+Magic number: 2108105339
+Hash of the previous block: 
+Aa8c5d393e5c07f6fb440c822060bad8d75a18858f818c46b70425422e1115aa2
+Hash of the block: 
+A9450df5005fdd07af8c38ab3e8bcf87850932bddbc1a7ed085ac57def808e59e
+Block data: 
+#MsgID: 41 miner25 sent 35 to User1
+#MsgID: 42 miner26 sent 35 to User2
+#MsgID: 43 miner25 sent 35 to User3
+#MsgID: 44 miner25 sent 35 to User4
+ sent 100 to miner 20
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 20
+20gets 100 VC
+Id: 13
+Timestamp: 1646502823863
+Magic number: 1292994924
+Hash of the previous block: 
+A9450df5005fdd07af8c38ab3e8bcf87850932bddbc1a7ed085ac57def808e59e
+Hash of the block: 
+Adcd9b7777c34a4eccd86d5464bb533772066ccc578d6453f2a18b24cb18b9077
+Block data: 
+#MsgID: 45 miner25 sent 35 to User1
+#MsgID: 46 miner25 sent 35 to User2
+#MsgID: 47 miner25 sent 35 to User3
+#MsgID: 48 miner26 sent 35 to User4
+ sent 100 to miner 20
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 23
+23gets 100 VC
+Id: 14
+Timestamp: 1646502823910
+Magic number: 1422999100
+Hash of the previous block: 
+Adcd9b7777c34a4eccd86d5464bb533772066ccc578d6453f2a18b24cb18b9077
+Hash of the block: 
+Ac432d94104d1dbe182df96609b804a07362afdfd2ebcaf7591cbba5b1945db09
+Block data: 
+#MsgID: 49 miner26 sent 35 to User1
+#MsgID: 50 miner25 sent 35 to User2
+#MsgID: 51 miner26 sent 35 to User3
+#MsgID: 52 miner26 sent 35 to User4
+ sent 100 to miner 23
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 23
+23gets 100 VC
+Id: 15
+Timestamp: 1646502823988
+Magic number: 1706021638
+Hash of the previous block: 
+Ac432d94104d1dbe182df96609b804a07362afdfd2ebcaf7591cbba5b1945db09
+Hash of the block: 
+A00001ad2bcc17612628611ea8a3454fd86f73a3f9ccf8dcbede51c28d7a863f6
+Block data: 
+#MsgID: 53 miner24 sent 35 to User1
+#MsgID: 54 miner25 sent 35 to User2
+#MsgID: 55 miner25 sent 35 to User3
+#MsgID: 56 miner24 sent 35 to User4
+ sent 100 to miner 23
+$Block was generating for 0 seconds 
+N was decreased by 0
 
 [1;31m
 Start test 2[0m
-Block:
-Created by miner # 4
-Id: 6
-Timestamp: 1646501063329
-$Magic number: -9050717687569072749
-Hash of the previous block: 
-B0000409f4a8530015f50da228e2ecb6b576b6e5e888f8d6fcea24927c4db4936
-Hash of the block: 
-B76591ca822d4b2935a144193e6821e22068a7f1592accffd3aada2013add1fdf
-Block data: no messages
-$Block was generating for 0 seconds
-N was increased to 1
-
-Block:
-Created by miner # 1
-Id: 7
-Timestamp: 1646501063372
-$Magic number: -5670460017962485702
-Hash of the previous block: 
-B76591ca822d4b2935a144193e6821e22068a7f1592accffd3aada2013add1fdf
-Hash of the block: 
-B0e3f1c7abd3b1162df771f6399bf941516f55fe43cc61fa04b0d6414821b7b94
+Block: 
+Created by miner # 30
+30gets 100 VC
+Id: 1
+Timestamp: 1646502824207
+Magic number: 221910943
+Hash of the previous block: 
+0
+Hash of the block: 
+A26bb3ddd1f98f46517dffd8826cdf1b1db616627c5c521926a2cb0ba9b2aa61a
 Block data: 
-'Aramys: Will I ever make decent money?
-Charles: How are you?
-"Evelio: How bout' those Dolphins?
-$Armando: How bout' those Dolphins?
-$Block was generating for 0 seconds
-N was increased to 2
-
-Block:
-Created by miner # 3
-Id: 8
-Timestamp: 1646501063384
-#Magic number: 1125765545336390223
-Hash of the previous block: 
-B0e3f1c7abd3b1162df771f6399bf941516f55fe43cc61fa04b0d6414821b7b94
-Hash of the block: 
-B0070faff07a3d164c6493ce69fa61f896161a78b6fd378b45b742d2e9f22f994
-Block data: no messages
-$Block was generating for 0 seconds
-N was increased to 3
-
-Block:
-Created by miner # 2
-Id: 9
-Timestamp: 1646501063432
-#Magic number: 5659909449236025018
-Hash of the previous block: 
-B0070faff07a3d164c6493ce69fa61f896161a78b6fd378b45b742d2e9f22f994
-Hash of the block: 
-B0005fc42c68386ad39b5b9482a9846437739d63b62f3079723bb41ff8c0b926c
+ sent 100 to miner 30
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 30
+30gets 100 VC
+Id: 2
+Timestamp: 1646502824285
+Magic number: 259931166
+Hash of the previous block: 
+A26bb3ddd1f98f46517dffd8826cdf1b1db616627c5c521926a2cb0ba9b2aa61a
+Hash of the block: 
+A3ab3e28b159f87cc12c7cf2e2c05ce9ae8b52264cd39969a854b078243706e1d
 Block data: 
-Evelio: This chat is garbage
-Aramys: I am getting old!
-$Block was generating for 0 seconds
-N was increased to 4
-
-Block:
-Created by miner # 4
-Id: 10
-Timestamp: 1646501063443
-$Magic number: -6734856336262947994
-Hash of the previous block: 
-B0005fc42c68386ad39b5b9482a9846437739d63b62f3079723bb41ff8c0b926c
-Hash of the block: 
-B0000d28e32e9c988a1c3749b1bff15f24f6e767d8991948bf22b1061f0a4a5a7
+"MsgID: 1 miner34 sent 35 to User1
+"MsgID: 2 miner35 sent 35 to User2
+"MsgID: 3 miner36 sent 35 to User3
+"MsgID: 4 miner37 sent 35 to User4
+ sent 100 to miner 30
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 31
+31gets 100 VC
+Id: 3
+Timestamp: 1646502824348
+Magic number: 265956434
+Hash of the previous block: 
+A3ab3e28b159f87cc12c7cf2e2c05ce9ae8b52264cd39969a854b078243706e1d
+Hash of the block: 
+Ab61e9221cf2aba6c74018d98f63fce099d17f049bfec1444129fdd735ad086f9
 Block data: 
-Charles: I love Java
-Armando: I am getting old!
-$Block was generating for 0 seconds
-N was increased to 5
+"MsgID: 5 miner34 sent 35 to User1
+"MsgID: 6 miner34 sent 35 to User2
+"MsgID: 7 miner34 sent 35 to User3
+"MsgID: 8 miner34 sent 35 to User4
+ sent 100 to miner 31
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 30
+30gets 100 VC
+Id: 4
+Timestamp: 1646502824410
+Magic number: 1282222058
+Hash of the previous block: 
+Ab61e9221cf2aba6c74018d98f63fce099d17f049bfec1444129fdd735ad086f9
+Hash of the block: 
+Aa71a1eebda6fc7f68469826cfc2bb743a2d5782f23649370fd3f264d563e5b9e
+Block data: 
+"MsgID: 9 miner34 sent 35 to User1
+#MsgID: 10 miner34 sent 35 to User2
+#MsgID: 11 miner34 sent 35 to User3
+#MsgID: 12 miner34 sent 35 to User4
+ sent 100 to miner 30
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 31
+31gets 100 VC
+Id: 5
+Timestamp: 1646502824457
+Magic number: 995609749
+Hash of the previous block: 
+Aa71a1eebda6fc7f68469826cfc2bb743a2d5782f23649370fd3f264d563e5b9e
+Hash of the block: 
+Aa5cd4f2b606dd91d0217165cbb9922b34d0d4544890c93dcd7f1e202b38382b3
+Block data: 
+#MsgID: 13 miner34 sent 35 to User1
+#MsgID: 14 miner34 sent 35 to User2
+#MsgID: 15 miner34 sent 35 to User3
+#MsgID: 16 miner35 sent 35 to User4
+ sent 100 to miner 31
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 33
+33gets 100 VC
+Id: 6
+Timestamp: 1646502824488
+Magic number: 177829674
+Hash of the previous block: 
+Aa5cd4f2b606dd91d0217165cbb9922b34d0d4544890c93dcd7f1e202b38382b3
+Hash of the block: 
+A40caed4c29c2df4658090b4378ce553d7de2ca172391a926c9adf5c4d07cbfb5
+Block data: 
+#MsgID: 17 miner34 sent 35 to User1
+#MsgID: 18 miner36 sent 35 to User2
+#MsgID: 19 miner37 sent 35 to User3
+#MsgID: 20 miner35 sent 35 to User4
+ sent 100 to miner 33
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 33
+33gets 100 VC
+Id: 7
+Timestamp: 1646502824519
+Magic number: 1981179677
+Hash of the previous block: 
+A40caed4c29c2df4658090b4378ce553d7de2ca172391a926c9adf5c4d07cbfb5
+Hash of the block: 
+A41cbf2ff5d268ae8b52302ad5dbbe7743ff522373fcecd594ab11b9bdf2d58c1
+Block data: 
+#MsgID: 21 miner36 sent 35 to User1
+#MsgID: 22 miner35 sent 35 to User2
+#MsgID: 23 miner34 sent 35 to User3
+#MsgID: 24 miner37 sent 35 to User4
+ sent 100 to miner 33
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 31
+31gets 100 VC
+Id: 8
+Timestamp: 1646502824566
+Magic number: 1488422732
+Hash of the previous block: 
+A41cbf2ff5d268ae8b52302ad5dbbe7743ff522373fcecd594ab11b9bdf2d58c1
+Hash of the block: 
+Ae2aff4ca81221abd7c409309db82f0fbd7368ac9d19ae8a649b3efed34bacb79
+Block data: 
+#MsgID: 25 miner34 sent 35 to User1
+#MsgID: 26 miner35 sent 35 to User2
+#MsgID: 27 miner34 sent 35 to User3
+#MsgID: 28 miner34 sent 35 to User4
+ sent 100 to miner 31
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 31
+31gets 100 VC
+Id: 9
+Timestamp: 1646502824613
+Magic number: 1117541603
+Hash of the previous block: 
+Ae2aff4ca81221abd7c409309db82f0fbd7368ac9d19ae8a649b3efed34bacb79
+Hash of the block: 
+Adc166c8d0d85a7552c239984ee991850eb1f3a3552bf3dc645f5f00f5906d249
+Block data: 
+#MsgID: 29 miner34 sent 35 to User1
+#MsgID: 30 miner35 sent 35 to User2
+#MsgID: 31 miner35 sent 35 to User3
+#MsgID: 32 miner35 sent 35 to User4
+ sent 100 to miner 31
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 31
+31gets 100 VC
+Id: 10
+Timestamp: 1646502824660
+Magic number: 1632378077
+Hash of the previous block: 
+Adc166c8d0d85a7552c239984ee991850eb1f3a3552bf3dc645f5f00f5906d249
+Hash of the block: 
+A5cc2c090c6bc649a94e1b0f1c72edee8c417334ae09eaed268c8aca03fa914b8
+Block data: 
+#MsgID: 33 miner37 sent 35 to User1
+#MsgID: 34 miner34 sent 35 to User2
+#MsgID: 35 miner36 sent 35 to User3
+#MsgID: 36 miner34 sent 35 to User4
+ sent 100 to miner 31
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 33
+33gets 100 VC
+Id: 11
+Timestamp: 1646502824691
+Magic number: 1044553029
+Hash of the previous block: 
+A5cc2c090c6bc649a94e1b0f1c72edee8c417334ae09eaed268c8aca03fa914b8
+Hash of the block: 
+Adc84496991988f3e99866a9d0dcd9411bb8d1c65fb8555bf5fec805d54658cac
+Block data: 
+#MsgID: 37 miner36 sent 35 to User1
+#MsgID: 38 miner37 sent 35 to User2
+#MsgID: 39 miner35 sent 35 to User3
+#MsgID: 40 miner34 sent 35 to User4
+ sent 100 to miner 33
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 33
+33gets 100 VC
+Id: 12
+Timestamp: 1646502824738
+Magic number: 140294098
+Hash of the previous block: 
+Adc84496991988f3e99866a9d0dcd9411bb8d1c65fb8555bf5fec805d54658cac
+Hash of the block: 
+A6717098207108764c8f63e9577bf1439267d204a5b44acc613b45a295f36de13
+Block data: 
+#MsgID: 41 miner37 sent 35 to User1
+#MsgID: 42 miner37 sent 35 to User2
+#MsgID: 43 miner37 sent 35 to User3
+#MsgID: 44 miner34 sent 35 to User4
+ sent 100 to miner 33
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 32
+32gets 100 VC
+Id: 13
+Timestamp: 1646502824785
+Magic number: 91978381
+Hash of the previous block: 
+A6717098207108764c8f63e9577bf1439267d204a5b44acc613b45a295f36de13
+Hash of the block: 
+A9bb1d4eb6fa2ba2eee7488014e303c095a10af3db35aca8432ef679a6e04d8c8
+Block data: 
+#MsgID: 45 miner34 sent 35 to User1
+#MsgID: 46 miner37 sent 35 to User2
+#MsgID: 47 miner34 sent 35 to User3
+#MsgID: 48 miner37 sent 35 to User4
+ sent 100 to miner 32
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 33
+33gets 100 VC
+Id: 14
+Timestamp: 1646502824816
+Magic number: 611415362
+Hash of the previous block: 
+A9bb1d4eb6fa2ba2eee7488014e303c095a10af3db35aca8432ef679a6e04d8c8
+Hash of the block: 
+A8b7021848baf64b69a4cf3deb1e0126bfeb7bfedf21fcead4007444e1e7fee4e
+Block data: 
+#MsgID: 49 miner35 sent 35 to User1
+#MsgID: 50 miner36 sent 35 to User2
+#MsgID: 51 miner37 sent 35 to User3
+#MsgID: 52 miner34 sent 35 to User4
+ sent 100 to miner 33
+$Block was generating for 0 seconds 
+N stays the same
+
+Block: 
+Created by miner # 30
+30gets 100 VC
+Id: 15
+Timestamp: 1646502824847
+Magic number: 885652899
+Hash of the previous block: 
+A8b7021848baf64b69a4cf3deb1e0126bfeb7bfedf21fcead4007444e1e7fee4e
+Hash of the block: 
+A8676ef86d3076ec9f0319d4a4c8ad21d06e22c2f75de9fcd124d171baf645b78
+Block data: 
+#MsgID: 53 miner35 sent 35 to User1
+#MsgID: 54 miner36 sent 35 to User2
+#MsgID: 55 miner37 sent 35 to User3
+#MsgID: 56 miner37 sent 35 to User4
+ sent 100 to miner 30
+$Block was generating for 0 seconds 
+N stays the same
 

@@ -1,150 +1,6 @@
 type: edu
 custom_name: stage6
 files:
-- name: src/blockchain/Main.java
-  visible: true
-  text: "package blockchain;\n\nimport java.io.Serializable;\nimport java.security.MessageDigest;\n\
-    import java.util.ArrayList;\nimport java.util.Date;\nimport java.util.List;\n\
-    import java.util.Objects;\nimport java.util.Random;\nimport java.util.concurrent.Callable;\n\
-    import java.util.concurrent.CopyOnWriteArrayList;\nimport java.util.concurrent.ExecutionException;\n\
-    import java.util.concurrent.ExecutorService;\nimport java.util.concurrent.Executors;\n\
-    import java.util.concurrent.Future;\nimport java.util.stream.Collectors;\n\npublic\
-    \ class Main {\n\n    public static void main(String[] args) {\n        Blockchain\
-    \ blockchain = new Blockchain();\n        Chat chat = new Chat(blockchain);\n\
-    \        new Thread(chat).start();\n\n        for (int i = 0; i < 7; i++) {\n\
-    \            blockchain.addBlock();\n            blockchain.validate();\n    \
-    \    }\n\n        Blockchain.Block block = blockchain.first;\n        for (int\
-    \ i = 0; i < 5; i++) {\n//\t\t\tSystem.out.println(block);\n            block\
-    \ = block.next;\n        }\n\n        chat.shutdown();\n        blockchain.shutdown();\n\
-    \    }\n\n    private static class Chat implements Runnable {\n        private\
-    \ Blockchain blockchain;\n        private ExecutorService executor;\n        private\
-    \ List<String> messages = new ArrayList<>();\n        private Random random =\
-    \ new Random();\n        private volatile boolean running = true;\n\n        {\n\
-    \            messages.add(\"Hi! I'm here.\");\n            messages.add(\"What's\
-    \ up?!\");\n            messages.add(\"It's not fair!\");\n            messages.add(\"\
-    Anyway, thank you for this amazing chat.\");\n            messages.add(\"You're\
-    \ welcome :)\");\n            messages.add(\"Hey, nice chat!!\");\n        }\n\
-    \n        public Chat(Blockchain blockchain) {\n            this.blockchain =\
-    \ blockchain;\n            executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());\n\
-    \        }\n\n        @Override\n        public void run() {\n            blockchain.addMessage(\"\
-    Tom: \" + \"I'm first!\");\n            while (running) {\n                executor.submit(()\
-    \ -> sendMsg(\"Sarah\"));\n                executor.submit(() -> sendMsg(\"Nick\"\
-    ));\n                executor.submit(() -> sendMsg(\"Tom\"));\n            }\n\
-    \            executor.shutdownNow();\n        }\n\n        public void shutdown()\
-    \ {\n            running = false;\n        }\n\n\n        private void sendMsg(String\
-    \ name) {\n            try {\n                blockchain.addMessage(name + \"\
-    : \" + getRandomMsg());\n                Thread.sleep(random.nextInt(1000));\n\
-    \            } catch (InterruptedException e) {\n                // empty\n  \
-    \          }\n        }\n\n        private String getRandomMsg() {\n         \
-    \   int size = messages.size();\n            return messages.get(random.nextInt(size));\n\
-    \        }\n    }\n\n    private static class Blockchain {\n        private Block\
-    \ first;\n        private Block last;\n        private int zeros;\n        private\
-    \ List<String> messages = new CopyOnWriteArrayList<>();\n\n        private ExecutorService\
-    \ executor;\n\n        public Blockchain() {\n            executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());\n\
-    \        }\n\n        public void addBlock() {\n            Block block = new\
-    \ Block();\n            boolean isNotFirst = last != null;\n            block.id\
-    \ = isNotFirst ? last.id + 1 : 1;\n\n            hash(block);\n\n            if\
-    \ (isNotFirst) {\n                synchronized (this) {\n                    block.messages.addAll(messages);\n\
-    \                    messages.clear();\n                }\n            }\n\n \
-    \           block.timestamp = new Date().getTime();\n            block.parentBlockHash\
-    \ = isNotFirst ? last.hash : \"0\";\n\n            if (blockValid(block)) {\n\
-    \                adjustZeros(block);\n                chain(block);\n        \
-    \    }\n\n            System.out.println(\"\\n>>> generated\" + block);\n    \
-    \    }\n\n        public void addMessage(String message) {\n            messages.add(message);\n\
-    \        }\n\n        private void adjustZeros(Block block) {\n            if\
-    \ (block.generationTimeInSec < 1) {\n                zeros++;\n              \
-    \  block.zerosStatus = zeros;\n            } else if (block.generationTimeInSec\
-    \ < 5) {\n                block.zerosStatus = 0;\n            } else {\n     \
-    \           zeros--;\n                block.zerosStatus = -1;\n            }\n\
-    \        }\n\n        private void chain(Block block) {\n            if (last\
-    \ != null) {\n                last.next = block;\n            } else {\n     \
-    \           first = block;\n            }\n\n            last = block;\n     \
-    \   }\n\n        private boolean blockValid(Block block) {\n            StringBuilder\
-    \ patternBuilder = new StringBuilder();\n            for (int i = 0; i < zeros;\
-    \ i++) {\n                patternBuilder.append(\"0\");\n            }\n     \
-    \       String pattern = patternBuilder.toString();\n            return block.hash.substring(0,\
-    \ zeros).equals(pattern);\n        }\n\n        public void validate() {\n   \
-    \         if (first == null) {\n                return;\n            }\n\n   \
-    \         Block block = first.next;\n            if (block == null) {\n      \
-    \          return;\n            }\n\n            while (block.next != null) {\n\
-    \                if (!(Objects.equals(block.hash, block.next.parentBlockHash)))\
-    \ {\n                    throw new RuntimeException(block.toString());\n     \
-    \           }\n                block = block.next;\n            }\n        }\n\
-    \n        private void hash(Block block) {\n            List<Future<HashInfo>>\
-    \ futures = new ArrayList<>(10);\n\n            long startTime = System.currentTimeMillis();\n\
-    \            for (int i = 1; i < 10; i++) {\n                futures.add(executor.submit(new\
-    \ Miner(i, block.id, zeros)));\n            }\n\n            boolean isDone =\
-    \ false;\n            do {\n                for (Future<HashInfo> future : futures)\
-    \ {\n                    if (future.isDone()) {\n                        try {\n\
-    \                            HashInfo hashInfo = future.get();\n             \
-    \               block.hash = hashInfo.hash;\n                            block.magicNumber\
-    \ = hashInfo.magicNumber;\n                            block.createdBy = hashInfo.minerId;\n\
-    \                            isDone = true;\n                            break;\n\
-    \                        } catch (InterruptedException | ExecutionException e)\
-    \ {\n                            e.printStackTrace();\n                      \
-    \  }\n                    }\n                }\n            } while (!(isDone));\n\
-    \n            long endTime = System.currentTimeMillis();\n            block.generationTimeInSec\
-    \ = (endTime - startTime) / 1000;\n\n            for (Future<HashInfo> future\
-    \ : futures) {\n                future.cancel(true);\n            }\n        }\n\
-    \n        public void shutdown() {\n            executor.shutdownNow();\n    \
-    \    }\n\n        private static class Block implements Serializable {\n     \
-    \       private int id;\n            private long timestamp;\n            private\
-    \ String parentBlockHash;\n            private String hash;\n            private\
-    \ Block next;\n            private int magicNumber;\n            private long\
-    \ generationTimeInSec;\n            private int createdBy;\n            private\
-    \ int zerosStatus;\n            private List<String> messages = new ArrayList<>();\n\
-    \n            @Override\n            public String toString() {\n            \
-    \    String zerosStatusString;\n                if (zerosStatus < 0) {\n     \
-    \               zerosStatusString = \"N was decreased by 1\";\n              \
-    \  } else if (zerosStatus == 0) {\n                    zerosStatusString = \"\
-    N stays the same\";\n                } else {\n                    zerosStatusString\
-    \ = \"N was increased to \" + zerosStatus;\n                }\n\n            \
-    \    String blockData;\n                if (messages.isEmpty()) {\n          \
-    \          blockData = \" no messages\";\n                } else {\n         \
-    \           blockData = \"\\n\" + messages.stream().collect(Collectors.joining(\"\
-    \\n\"));\n                }\n\n                return \"\\n\" +\n            \
-    \            \"Block:\" + '\\n' +\n                        \"Created by miner\
-    \ # \" + createdBy + '\\n' +\n                        \"Id: \" + id + '\\n' +\n\
-    \                        \"Timestamp: \" + timestamp + '\\n' +\n             \
-    \           \"Magic number: \" + magicNumber + '\\n' +\n                     \
-    \   \"Hash of the previous block:\\n\" + parentBlockHash + '\\n' +\n         \
-    \               \"Hash of the block:\\n\" + hash + '\\n' +\n                 \
-    \       \"Block data:\" + blockData + '\\n' +\n                        \"Block\
-    \ was generating for \" + generationTimeInSec + \" seconds\" + '\\n' +\n     \
-    \                   zerosStatusString +\n                        \"\";\n     \
-    \       }\n        }\n\n        private static class Miner implements Callable<HashInfo>\
-    \ {\n            private int id;\n            private int blockId;\n         \
-    \   private int zeros;\n\n            public Miner(int id, int blockId, int zeros)\
-    \ {\n                this.id = id;\n                this.blockId = blockId;\n\
-    \                this.zeros = zeros;\n            }\n\n            /* Applies\
-    \ Sha256 to a string and returns a hash. */\n            private static String\
-    \ applySha256(String input) {\n                try {\n                    MessageDigest\
-    \ digest = MessageDigest.getInstance(\"SHA-256\");\n                    /* Applies\
-    \ sha256 to our input */\n                    byte[] hash = digest.digest(input.getBytes(\"\
-    UTF-8\"));\n                    StringBuilder hexString = new StringBuilder();\n\
-    \                    for (byte elem : hash) {\n                        String\
-    \ hex = Integer.toHexString(0xff & elem);\n                        if (hex.length()\
-    \ == 1) {\n                            hexString.append('0');\n              \
-    \          }\n                        hexString.append(hex);\n               \
-    \     }\n                    return hexString.toString();\n                } catch\
-    \ (Exception e) {\n                    throw new RuntimeException(e);\n      \
-    \          }\n            }\n\n            @Override\n            public HashInfo\
-    \ call() {\n                String base = String.valueOf(blockId);\n\n       \
-    \         StringBuilder patternBuilder = new StringBuilder();\n              \
-    \  for (int i = 0; i < zeros; i++) {\n                    patternBuilder.append(\"\
-    0\");\n                }\n                String pattern = patternBuilder.toString();\n\
-    \n                Random random = new Random();\n                int magicNumber;\n\
-    \                String hash;\n                do {\n                    magicNumber\
-    \ = random.nextInt(Integer.MAX_VALUE);\n                    hash = applySha256(base\
-    \ + magicNumber);\n                } while (!(hash.substring(0, zeros).equals(pattern))\n\
-    \                        && !(Thread.interrupted()));\n\n                return\
-    \ new HashInfo(id, hash, magicNumber);\n            }\n        }\n\n        private\
-    \ static class HashInfo {\n            private int minerId;\n            private\
-    \ String hash;\n            private int magicNumber;\n\n            public HashInfo(int\
-    \ minerId, String hash, int magicNumber) {\n                this.minerId = minerId;\n\
-    \                this.hash = hash;\n                this.magicNumber = magicNumber;\n\
-    \            }\n        }\n    }\n}"
-  learner_created: false
 - name: test/BlockchainTest.java
   visible: false
   text: |
@@ -378,6 +234,580 @@ files:
         }
     }
   learner_created: false
+- name: src/blockchain/Block.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.stream.Collectors;
+
+    public class Block {
+        private int id;
+        private long timestamp;
+        private String parentBlockHash;
+        private String hash;
+        private Block next;
+        private int magicNumber;
+        private long generationTimeInSec;
+        private int createdBy;
+        private int zerosStatus;
+        private List<Message> messages = new ArrayList<>();
+        private long maxMessageId;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(long timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public String getParentBlockHash() {
+            return parentBlockHash;
+        }
+
+        public void setParentBlockHash(String parentBlockHash) {
+            this.parentBlockHash = parentBlockHash;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        public void setHash(String hash) {
+            this.hash = hash;
+        }
+
+        public Block getNext() {
+            return next;
+        }
+
+        public void setNext(Block next) {
+            this.next = next;
+        }
+
+        public int getMagicNumber() {
+            return magicNumber;
+        }
+
+        public void setMagicNumber(int magicNumber) {
+            this.magicNumber = magicNumber;
+        }
+
+        public long getGenerationTimeInSec() {
+            return generationTimeInSec;
+        }
+
+        public void setGenerationTimeInSec(long generationTimeInSec) {
+            this.generationTimeInSec = generationTimeInSec;
+        }
+
+        public int getCreatedBy() {
+            return createdBy;
+        }
+
+        public void setCreatedBy(int createdBy) {
+            this.createdBy = createdBy;
+        }
+
+        public int getZerosStatus() {
+            return zerosStatus;
+        }
+
+        public void setZerosStatus(int zerosStatus) {
+            this.zerosStatus = zerosStatus;
+        }
+
+        public List<Message> getMessages() {
+            return messages;
+        }
+
+        public void setMessages(List<Message> messages) {
+            this.messages = messages;
+        }
+
+        public long getMaxMessageId() {
+            return maxMessageId;
+        }
+
+        public void setMaxMessageId(long maxMessageId) {
+            this.maxMessageId = maxMessageId;
+        }
+
+        @Override
+        public String toString() {
+            String zerosStatusString;
+            if (zerosStatus < 0) {
+                zerosStatusString = "N was decreased by 1";
+            } else if (zerosStatus == 0) {
+                zerosStatusString = "N stays the same";
+            } else {
+                zerosStatusString = "N was increased to " + zerosStatus;
+            }
+
+            String blockData;
+            if (messages.isEmpty()) {
+                blockData = " no messages";
+            } else {
+                blockData = "\n" + messages.stream().map(Message::getText).collect(Collectors.joining("\n"));
+            }
+
+            return "\n" +
+                    "Block:" + '\n' +
+                    "Created by miner # " + createdBy + '\n' +
+                    "Id: " + id + '\n' +
+                    "Timestamp: " + timestamp + '\n' +
+                    "Magic number: " + magicNumber + '\n' +
+                    "Hash of the previous block:\n" + parentBlockHash + '\n' +
+                    "Hash of the block:\n" + hash + '\n' +
+                    "Block data:" + blockData + '\n' +
+                    "Block was generating for " + generationTimeInSec + " seconds" + '\n' +
+                    zerosStatusString +
+                    "";
+        }
+    }
+  learner_created: true
+- name: src/blockchain/Main.java
+  visible: true
+  text: "package blockchain;\n\npublic class BlockchainStage5App {\n\n    public static\
+    \ void main(String[] args) {\n        Blockchain blockchain = new Blockchain();\n\
+    \        Chat chat = new Chat(blockchain);\n        new Thread(chat).start();\n\
+    \n        for (int i = 0; i < 5; i++) {\n            blockchain.addBlock();\n\
+    \            blockchain.validate();\n        }\n\n        Block block = blockchain.getFirst();\n\
+    \        for (int i = 0; i < 5; i++) {\n//\t\t\tSystem.out.println(block);\n \
+    \           block = block.getNext();\n        }\n\n        chat.shutdown();\n\
+    \        blockchain.shutdown();\n    }\n}\n"
+  learner_created: true
+- name: src/blockchain/MessageCrypt.java
+  visible: true
+  text: |
+    package blockchain;
+
+    class HashInfo {
+        private int minerId;
+        private String hash;
+        private int magicNumber;
+
+        public HashInfo(int minerId, String hash, int magicNumber) {
+            this.minerId = minerId;
+            this.hash = hash;
+            this.magicNumber = magicNumber;
+        }
+
+        public int getMinerId() {
+            return minerId;
+        }
+
+        public String getHash() {
+            return hash;
+        }
+
+        public int getMagicNumber() {
+            return magicNumber;
+        }
+    }
+  learner_created: true
+- name: src/blockchain/StringUtil.java
+  visible: true
+  text: |
+    package blockchain;
+
+
+    import java.security.MessageDigest;
+    import java.util.Random;
+    import java.util.concurrent.Callable;
+
+    class Miner implements Callable<HashInfo> {
+        private int id;
+        private int blockId;
+        private int zeros;
+
+        public Miner(int id, int blockId, int zeros) {
+            this.id = id;
+            this.blockId = blockId;
+            this.zeros = zeros;
+        }
+
+        @Override
+        public HashInfo call() {
+            String base = String.valueOf(blockId);
+
+            StringBuilder patternBuilder = new StringBuilder();
+            for (int i = 0; i < zeros; i++) {
+                patternBuilder.append("0");
+            }
+            String pattern = patternBuilder.toString();
+
+            Random random = new Random();
+            int magicNumber;
+            String hash;
+            do {
+                magicNumber = random.nextInt(Integer.MAX_VALUE);
+                hash = applySha256(base + magicNumber);
+            } while (!(hash.substring(0, zeros).equals(pattern))
+                    && !(Thread.interrupted()));
+
+            return new HashInfo(id, hash, magicNumber);
+        }
+
+        /* Applies Sha256 to a string and returns a hash. */
+        private static String applySha256(String input) {
+            try {
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                /* Applies sha256 to our input */
+                byte[] hash = digest.digest(input.getBytes("UTF-8"));
+                StringBuilder hexString = new StringBuilder();
+                for (byte elem : hash) {
+                    String hex = Integer.toHexString(0xff & elem);
+                    if (hex.length() == 1) {
+                        hexString.append('0');
+                    }
+                    hexString.append(hex);
+                }
+                return hexString.toString();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+  learner_created: true
+- name: block.dat
+  visible: true
+  learner_created: true
+- name: src/blockchain/BlockChainGenerator.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/BlockChainUtil.java
+  visible: true
+  text: |
+    package blockchain;
+
+    import java.security.InvalidKeyException;
+    import java.security.KeyPair;
+    import java.security.KeyPairGenerator;
+    import java.security.NoSuchAlgorithmException;
+    import java.security.PrivateKey;
+    import java.security.PublicKey;
+    import java.security.Signature;
+    import java.security.SignatureException;
+    import java.util.ArrayList;
+    import java.util.Date;
+    import java.util.List;
+    import java.util.Objects;
+    import java.util.concurrent.CopyOnWriteArrayList;
+    import java.util.concurrent.ExecutionException;
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.Executors;
+    import java.util.concurrent.Future;
+    import java.util.concurrent.atomic.AtomicLong;
+
+    public class Blockchain {
+        private Block first;
+        private Block last;
+        private int zeros;
+        private List<Message> messages = new CopyOnWriteArrayList<>();
+        private AtomicLong counter = new AtomicLong(1L);
+        private PrivateKey privateKey;
+        private PublicKey publicKey;
+        private ExecutorService executor;
+
+        public Blockchain() {
+            executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            try {
+                KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+                keyGen.initialize(512);
+                KeyPair keyPair = keyGen.generateKeyPair();
+                privateKey = keyPair.getPrivate();
+                publicKey = keyPair.getPublic();
+            } catch (NoSuchAlgorithmException e) {
+                // empty
+            }
+        }
+
+        public Block getFirst() {
+            return first;
+        }
+
+        public void addBlock() {
+            boolean isNotFirst = last != null;
+
+            Block block = new Block();
+
+            int id = isNotFirst ? last.getId() + 1 : 1;
+            block.setId(id);
+
+            if (isNotFirst) {
+                synchronized (this) {
+                    block.getMessages().addAll(messages);
+                    messages.clear();
+                }
+            }
+
+            long messageId = isNotFirst
+                    ? block.getMessages().stream().mapToLong(Message::getId).max().orElse(last.getMaxMessageId())
+                    : 0L;
+            block.setMaxMessageId(messageId);
+
+            hash(block);
+
+            block.setTimestamp(new Date().getTime());
+
+            String parentBlockHash = isNotFirst ? last.getHash() : "0";
+            block.setParentBlockHash(parentBlockHash);
+
+            if (blockValid(block)) {
+                adjustZeros(block);
+                chain(block);
+            }
+
+            System.out.println(block);
+        }
+
+        public void addMessage(String text) {
+            Message message = new Message();
+            message.setId(counter.getAndIncrement());
+            message.setText(text);
+            message.setPublicKey(publicKey);
+            sign(message);
+            messages.add(message);
+        }
+
+        private void sign(Message message) {
+            try {
+                Signature rsa = Signature.getInstance("SHA1withRSA");
+                rsa.initSign(privateKey);
+                String subjectToSign = message.getId() + message.getText();
+                rsa.update(subjectToSign.getBytes());
+                message.setSignature(rsa.sign());
+            } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void adjustZeros(Block block) {
+            long generationTimeInSec = block.getGenerationTimeInSec();
+            if (generationTimeInSec < 1) {
+                zeros++;
+                block.setZerosStatus(zeros);
+            } else if (generationTimeInSec < 5) {
+                block.setZerosStatus(0);
+            } else {
+                zeros--;
+                block.setZerosStatus(-1);
+            }
+        }
+
+        private void chain(Block block) {
+            if (last != null) {
+                last.setNext(block);
+            } else {
+                first = block;
+            }
+
+            last = block;
+        }
+
+        private boolean blockValid(Block block) {
+            StringBuilder patternBuilder = new StringBuilder();
+            for (int i = 0; i < zeros; i++) {
+                patternBuilder.append("0");
+            }
+            String pattern = patternBuilder.toString();
+            return block.getHash().substring(0, zeros).equals(pattern);
+        }
+
+        public void validate() {
+            if (first == null) {
+                return;
+            }
+
+            Block block = first.getNext();
+            if (block == null) {
+                return;
+            }
+
+            long maxId = 0L;
+            while (block.getNext() != null) {
+                if (!(Objects.equals(block.getHash(), block.getNext().getParentBlockHash()))) {
+                    throw new RuntimeException(block.toString());
+                }
+
+                validateMessageSignature(block);
+
+                validateMessageId(block, maxId);
+
+                maxId = block.getMaxMessageId();
+                block = block.getNext();
+            }
+        }
+
+        private void validateMessageSignature(Block block) {
+            List<Message> messages = block.getMessages();
+
+            try {
+                Signature signature = Signature.getInstance("SHA1withRSA");
+                boolean isVerified = messages.stream()
+                        .peek(m -> {
+                            try {
+                                signature.initVerify(m.getPublicKey());
+                            } catch (InvalidKeyException e) {
+                                // empty
+                            }
+                        })
+                        .peek(m -> {
+                            try {
+                                signature.update((m.getId() + m.getText()).getBytes());
+                            } catch (SignatureException e) {
+                                // empty
+                            }
+                        })
+                        .map(m -> {
+                            try {
+                                return signature.verify(m.getSignature());
+                            } catch (SignatureException e) {
+                                // empty
+                            }
+                            return true;
+                        })
+                        .reduce(true, (acc, elem) -> acc && elem);
+                if (!isVerified) {
+                    throw new RuntimeException(block.toString());
+                }
+            } catch (NoSuchAlgorithmException e) {
+                // empty
+            }
+        }
+
+        private void validateMessageId(Block block, long maxId) {
+            long wrongId = block.getMessages().stream()
+                    .mapToLong(Message::getId)
+                    .filter(id -> id <= maxId)
+                    .count();
+            boolean isVerified = wrongId == 0L;
+            if (!isVerified) {
+                throw new RuntimeException(block.toString());
+            }
+        }
+
+        private void hash(Block block) {
+            List<Future<HashInfo>> futures = new ArrayList<>(10);
+
+            long startTime = System.currentTimeMillis();
+            for (int i = 1; i < 10; i++) {
+                futures.add(executor.submit(new Miner(i, block.getId(), zeros)));
+            }
+
+            boolean isDone = false;
+            do {
+                for (Future<HashInfo> future : futures) {
+                    if (future.isDone()) {
+                        try {
+                            HashInfo hashInfo = future.get();
+                            block.setHash(hashInfo.getHash());
+                            block.setMagicNumber(hashInfo.getMagicNumber());
+                            block.setCreatedBy(hashInfo.getMinerId());
+                            isDone = true;
+                            break;
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } while (!(isDone));
+
+            long endTime = System.currentTimeMillis();
+            block.setGenerationTimeInSec((endTime - startTime) / 1000);
+
+            for (Future<HashInfo> future : futures) {
+                future.cancel(true);
+            }
+        }
+
+        public void shutdown() {
+            executor.shutdownNow();
+        }
+    }
+  learner_created: true
+- name: src/blockchain/Message.java
+  visible: true
+  learner_created: true
+- name: src/blockchain/SerialiseUtil.java
+  visible: true
+  text: |
+    package blockchain;
+
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Random;
+    import java.util.concurrent.ExecutorService;
+    import java.util.concurrent.Executors;
+
+    public class Chat implements Runnable {
+        private Blockchain blockchain;
+        private ExecutorService executor;
+        private List<String> messages = new ArrayList<>();
+        private Random random = new Random();
+        private volatile boolean running = true;
+
+        {
+            messages.add("Hi! I'm here.");
+            messages.add("What's up?!");
+            messages.add("It's not fair!");
+            messages.add("Anyway, thank you for this amazing chat.");
+            messages.add("You're welcome :)");
+            messages.add("Hey, nice chat!!");
+        }
+
+        public Chat(Blockchain blockchain) {
+            this.blockchain = blockchain;
+            executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        }
+
+        @Override
+        public void run() {
+            blockchain.addMessage("Tom: " + "I'm first!");
+            while (running) {
+                executor.submit(() -> sendMsg("Sarah"));
+                executor.submit(() -> sendMsg("Nick"));
+                executor.submit(() -> sendMsg("Tom"));
+            }
+            executor.shutdownNow();
+        }
+
+        private void sendMsg(String name) {
+            try {
+                blockchain.addMessage(name + ": " + getRandomMsg());
+                Thread.sleep(random.nextInt(1000));
+            } catch (InterruptedException e) {
+                // empty
+            }
+        }
+
+        private String getRandomMsg() {
+            int size = messages.size();
+            return messages.get(random.nextInt(size));
+        }
+
+        public void shutdown() {
+            running = false;
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5418#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">JetBrains
+    Academy</a> to continue learning.
+  time: Sat, 05 Mar 2022 17:53:45 UTC
 record: -1
