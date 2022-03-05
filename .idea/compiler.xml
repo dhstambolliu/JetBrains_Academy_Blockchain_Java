@@ -13,6 +13,14 @@
       <module name="Blockchain.Topics-Abstract_class-Theory.main" target="11" />
       <module name="Blockchain.Topics-Currying-Curried_function.main" target="11" />
       <module name="Blockchain.Topics-Currying-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Check_the_essay.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Methods_of_a_string.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Methods_of_Matcher.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Remove_comments.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Remove_extra_spaces.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Remove_HTML_tags.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-Theory.main" target="11" />
+      <module name="Blockchain.Topics-Replacing_characters-What_is_the_result.main" target="11" />
       <module name="Blockchain.util.main" target="11" />
     </bytecodeTargetLevel>
   </component>
