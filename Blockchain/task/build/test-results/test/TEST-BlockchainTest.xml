@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BlockchainTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-03-05T17:24:22" hostname="DESKTOP-HNQ0AKR" time="1.781">
+  <properties/>
+  <testcase name="start" classname="BlockchainTest" time="1.781"/>
+  <system-out><![CDATA[?[1;31m
+Start test 1?[0m
+No valid blockchain found: new blockchain created.
+
+Block:
+Created by miner # 1
+Id: 1
+Timestamp: 1646501062437
+Magic number: 4783314300212976079
+Hash of the previous block: 
+0
+Hash of the block: 
+06217b205ba35c3fa64533c6f8dd631dbfd079fd47d63f87ff8f6ac5a54e62c0
+Block data: no messages
+Block was generating for 0 seconds
+N was increased to 1
+
+Block:
+Created by miner # 3
+Id: 2
+Timestamp: 1646501062502
+Magic number: -2141856496496171611
+Hash of the previous block: 
+06217b205ba35c3fa64533c6f8dd631dbfd079fd47d63f87ff8f6ac5a54e62c0
+Hash of the block: 
+09e6749f0c43d8f6f88aaa3ba4f4d762bad3d8aa7bfd8b4088a68c6bad1890f2
+Block data: 
+Evelio: I love basketball
+Evelio: Life is good
+Aramys: Hello
+Armando: Interesting...
+Charles: I love Java
+Block was generating for 0 seconds
+N was increased to 2
+
+Block:
+Created by miner # 1
+Id: 3
+Timestamp: 1646501062556
+Magic number: 5096542775316476028
+Hash of the previous block: 
+09e6749f0c43d8f6f88aaa3ba4f4d762bad3d8aa7bfd8b4088a68c6bad1890f2
+Hash of the block: 
+00e51bb32c39af3cf18611012dccd34c1949d885138348e57aec3ac7160f6e96
+Block data: no messages
+Block was generating for 0 seconds
+N was increased to 3
+
+Block:
+Created by miner # 1
+Id: 4
+Timestamp: 1646501062583
+Magic number: 2178595122268618511
+Hash of the previous block: 
+00e51bb32c39af3cf18611012dccd34c1949d885138348e57aec3ac7160f6e96
+Hash of the block: 
+0000be4170f722edef03bb6c3d75a15c831ea4ca3a3a89e588425292b10f85fb
+Block data: 
+Aramys: It's sunny outside here
+Charles: I am getting old!
+Armando: Hello
+Evelio: It's sunny outside here
+Block was generating for 0 seconds
+N was increased to 4
+
+Block:
+Created by miner # 2
+Id: 5
+Timestamp: 1646501062672
+Magic number: -3977360398597194013
+Hash of the previous block: 
+0000be4170f722edef03bb6c3d75a15c831ea4ca3a3a89e588425292b10f85fb
+Hash of the block: 
+0000409f4a8530015f50da228e2ecb6b576b6e5e888f8d6fcea24927c4db4936
+Block data: 
+Charles: How are you?
+Charles: I love basketball
+Aramys: How bout' those Dolphins?
+Armando: What is the meaning of life?
+Evelio: I am getting old!
+Block was generating for 0 seconds
+N was increased to 5
+
+?[1;31m
+Start test 2?[0m
+Block:
+Created by miner # 4
+Id: 6
+Timestamp: 1646501063329
+Magic number: -9050717687569072749
+Hash of the previous block: 
+0000409f4a8530015f50da228e2ecb6b576b6e5e888f8d6fcea24927c4db4936
+Hash of the block: 
+76591ca822d4b2935a144193e6821e22068a7f1592accffd3aada2013add1fdf
+Block data: no messages
+Block was generating for 0 seconds
+N was increased to 1
+
+Block:
+Created by miner # 1
+Id: 7
+Timestamp: 1646501063372
+Magic number: -5670460017962485702
+Hash of the previous block: 
+76591ca822d4b2935a144193e6821e22068a7f1592accffd3aada2013add1fdf
+Hash of the block: 
+0e3f1c7abd3b1162df771f6399bf941516f55fe43cc61fa04b0d6414821b7b94
+Block data: 
+Aramys: Will I ever make decent money?
+Charles: How are you?
+Evelio: How bout' those Dolphins?
+Armando: How bout' those Dolphins?
+Block was generating for 0 seconds
+N was increased to 2
+
+Block:
+Created by miner # 3
+Id: 8
+Timestamp: 1646501063384
+Magic number: 1125765545336390223
+Hash of the previous block: 
+0e3f1c7abd3b1162df771f6399bf941516f55fe43cc61fa04b0d6414821b7b94
+Hash of the block: 
+0070faff07a3d164c6493ce69fa61f896161a78b6fd378b45b742d2e9f22f994
+Block data: no messages
+Block was generating for 0 seconds
+N was increased to 3
+
+Block:
+Created by miner # 2
+Id: 9
+Timestamp: 1646501063432
+Magic number: 5659909449236025018
+Hash of the previous block: 
+0070faff07a3d164c6493ce69fa61f896161a78b6fd378b45b742d2e9f22f994
+Hash of the block: 
+0005fc42c68386ad39b5b9482a9846437739d63b62f3079723bb41ff8c0b926c
+Block data: 
+Evelio: This chat is garbage
+Aramys: I am getting old!
+Block was generating for 0 seconds
+N was increased to 4
+
+Block:
+Created by miner # 4
+Id: 10
+Timestamp: 1646501063443
+Magic number: -6734856336262947994
+Hash of the previous block: 
+0005fc42c68386ad39b5b9482a9846437739d63b62f3079723bb41ff8c0b926c
+Hash of the block: 
+0000d28e32e9c988a1c3749b1bff15f24f6e767d8991948bf22b1061f0a4a5a7
+Block data: 
+Charles: I love Java
+Armando: I am getting old!
+Block was generating for 0 seconds
+N was increased to 5
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

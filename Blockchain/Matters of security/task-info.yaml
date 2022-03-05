@@ -1,0 +1,378 @@
+type: edu
+custom_name: stage5
+files:
+- name: src/blockchain/Main.java
+  visible: true
+  text: "package blockchain;\n\nimport java.io.Serializable;\nimport java.security.MessageDigest;\n\
+    import java.util.ArrayList;\nimport java.util.Date;\nimport java.util.List;\n\
+    import java.util.Objects;\nimport java.util.Random;\nimport java.util.concurrent.Callable;\n\
+    import java.util.concurrent.CopyOnWriteArrayList;\nimport java.util.concurrent.ExecutionException;\n\
+    import java.util.concurrent.ExecutorService;\nimport java.util.concurrent.Executors;\n\
+    import java.util.concurrent.Future;\nimport java.util.stream.Collectors;\n\npublic\
+    \ class Main {\n\n    public static void main(String[] args) {\n        Blockchain\
+    \ blockchain = new Blockchain();\n        Chat chat = new Chat(blockchain);\n\
+    \        new Thread(chat).start();\n\n        for (int i = 0; i < 7; i++) {\n\
+    \            blockchain.addBlock();\n            blockchain.validate();\n    \
+    \    }\n\n        Blockchain.Block block = blockchain.first;\n        for (int\
+    \ i = 0; i < 5; i++) {\n//\t\t\tSystem.out.println(block);\n            block\
+    \ = block.next;\n        }\n\n        chat.shutdown();\n        blockchain.shutdown();\n\
+    \    }\n\n    private static class Chat implements Runnable {\n        private\
+    \ Blockchain blockchain;\n        private ExecutorService executor;\n        private\
+    \ List<String> messages = new ArrayList<>();\n        private Random random =\
+    \ new Random();\n        private volatile boolean running = true;\n\n        {\n\
+    \            messages.add(\"Hi! I'm here.\");\n            messages.add(\"What's\
+    \ up?!\");\n            messages.add(\"It's not fair!\");\n            messages.add(\"\
+    Anyway, thank you for this amazing chat.\");\n            messages.add(\"You're\
+    \ welcome :)\");\n            messages.add(\"Hey, nice chat!!\");\n        }\n\
+    \n        public Chat(Blockchain blockchain) {\n            this.blockchain =\
+    \ blockchain;\n            executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());\n\
+    \        }\n\n        @Override\n        public void run() {\n            blockchain.addMessage(\"\
+    Tom: \" + \"I'm first!\");\n            while (running) {\n                executor.submit(()\
+    \ -> sendMsg(\"Sarah\"));\n                executor.submit(() -> sendMsg(\"Nick\"\
+    ));\n                executor.submit(() -> sendMsg(\"Tom\"));\n            }\n\
+    \            executor.shutdownNow();\n        }\n\n        public void shutdown()\
+    \ {\n            running = false;\n        }\n\n\n        private void sendMsg(String\
+    \ name) {\n            try {\n                blockchain.addMessage(name + \"\
+    : \" + getRandomMsg());\n                Thread.sleep(random.nextInt(1000));\n\
+    \            } catch (InterruptedException e) {\n                // empty\n  \
+    \          }\n        }\n\n        private String getRandomMsg() {\n         \
+    \   int size = messages.size();\n            return messages.get(random.nextInt(size));\n\
+    \        }\n    }\n\n    private static class Blockchain {\n        private Block\
+    \ first;\n        private Block last;\n        private int zeros;\n        private\
+    \ List<String> messages = new CopyOnWriteArrayList<>();\n\n        private ExecutorService\
+    \ executor;\n\n        public Blockchain() {\n            executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());\n\
+    \        }\n\n        public void addBlock() {\n            Block block = new\
+    \ Block();\n            boolean isNotFirst = last != null;\n            block.id\
+    \ = isNotFirst ? last.id + 1 : 1;\n\n            hash(block);\n\n            if\
+    \ (isNotFirst) {\n                synchronized (this) {\n                    block.messages.addAll(messages);\n\
+    \                    messages.clear();\n                }\n            }\n\n \
+    \           block.timestamp = new Date().getTime();\n            block.parentBlockHash\
+    \ = isNotFirst ? last.hash : \"0\";\n\n            if (blockValid(block)) {\n\
+    \                adjustZeros(block);\n                chain(block);\n        \
+    \    }\n\n            System.out.println(\"\\n>>> generated\" + block);\n    \
+    \    }\n\n        public void addMessage(String message) {\n            messages.add(message);\n\
+    \        }\n\n        private void adjustZeros(Block block) {\n            if\
+    \ (block.generationTimeInSec < 1) {\n                zeros++;\n              \
+    \  block.zerosStatus = zeros;\n            } else if (block.generationTimeInSec\
+    \ < 5) {\n                block.zerosStatus = 0;\n            } else {\n     \
+    \           zeros--;\n                block.zerosStatus = -1;\n            }\n\
+    \        }\n\n        private void chain(Block block) {\n            if (last\
+    \ != null) {\n                last.next = block;\n            } else {\n     \
+    \           first = block;\n            }\n\n            last = block;\n     \
+    \   }\n\n        private boolean blockValid(Block block) {\n            StringBuilder\
+    \ patternBuilder = new StringBuilder();\n            for (int i = 0; i < zeros;\
+    \ i++) {\n                patternBuilder.append(\"0\");\n            }\n     \
+    \       String pattern = patternBuilder.toString();\n            return block.hash.substring(0,\
+    \ zeros).equals(pattern);\n        }\n\n        public void validate() {\n   \
+    \         if (first == null) {\n                return;\n            }\n\n   \
+    \         Block block = first.next;\n            if (block == null) {\n      \
+    \          return;\n            }\n\n            while (block.next != null) {\n\
+    \                if (!(Objects.equals(block.hash, block.next.parentBlockHash)))\
+    \ {\n                    throw new RuntimeException(block.toString());\n     \
+    \           }\n                block = block.next;\n            }\n        }\n\
+    \n        private void hash(Block block) {\n            List<Future<HashInfo>>\
+    \ futures = new ArrayList<>(10);\n\n            long startTime = System.currentTimeMillis();\n\
+    \            for (int i = 1; i < 10; i++) {\n                futures.add(executor.submit(new\
+    \ Miner(i, block.id, zeros)));\n            }\n\n            boolean isDone =\
+    \ false;\n            do {\n                for (Future<HashInfo> future : futures)\
+    \ {\n                    if (future.isDone()) {\n                        try {\n\
+    \                            HashInfo hashInfo = future.get();\n             \
+    \               block.hash = hashInfo.hash;\n                            block.magicNumber\
+    \ = hashInfo.magicNumber;\n                            block.createdBy = hashInfo.minerId;\n\
+    \                            isDone = true;\n                            break;\n\
+    \                        } catch (InterruptedException | ExecutionException e)\
+    \ {\n                            e.printStackTrace();\n                      \
+    \  }\n                    }\n                }\n            } while (!(isDone));\n\
+    \n            long endTime = System.currentTimeMillis();\n            block.generationTimeInSec\
+    \ = (endTime - startTime) / 1000;\n\n            for (Future<HashInfo> future\
+    \ : futures) {\n                future.cancel(true);\n            }\n        }\n\
+    \n        public void shutdown() {\n            executor.shutdownNow();\n    \
+    \    }\n\n        private static class Block implements Serializable {\n     \
+    \       private int id;\n            private long timestamp;\n            private\
+    \ String parentBlockHash;\n            private String hash;\n            private\
+    \ Block next;\n            private int magicNumber;\n            private long\
+    \ generationTimeInSec;\n            private int createdBy;\n            private\
+    \ int zerosStatus;\n            private List<String> messages = new ArrayList<>();\n\
+    \n            @Override\n            public String toString() {\n            \
+    \    String zerosStatusString;\n                if (zerosStatus < 0) {\n     \
+    \               zerosStatusString = \"N was decreased by 1\";\n              \
+    \  } else if (zerosStatus == 0) {\n                    zerosStatusString = \"\
+    N stays the same\";\n                } else {\n                    zerosStatusString\
+    \ = \"N was increased to \" + zerosStatus;\n                }\n\n            \
+    \    String blockData;\n                if (messages.isEmpty()) {\n          \
+    \          blockData = \" no messages\";\n                } else {\n         \
+    \           blockData = \"\\n\" + messages.stream().collect(Collectors.joining(\"\
+    \\n\"));\n                }\n\n                return \"\\n\" +\n            \
+    \            \"Block:\" + '\\n' +\n                        \"Created by miner\
+    \ # \" + createdBy + '\\n' +\n                        \"Id: \" + id + '\\n' +\n\
+    \                        \"Timestamp: \" + timestamp + '\\n' +\n             \
+    \           \"Magic number: \" + magicNumber + '\\n' +\n                     \
+    \   \"Hash of the previous block:\\n\" + parentBlockHash + '\\n' +\n         \
+    \               \"Hash of the block:\\n\" + hash + '\\n' +\n                 \
+    \       \"Block data:\" + blockData + '\\n' +\n                        \"Block\
+    \ was generating for \" + generationTimeInSec + \" seconds\" + '\\n' +\n     \
+    \                   zerosStatusString +\n                        \"\";\n     \
+    \       }\n        }\n\n        private static class Miner implements Callable<HashInfo>\
+    \ {\n            private int id;\n            private int blockId;\n         \
+    \   private int zeros;\n\n            public Miner(int id, int blockId, int zeros)\
+    \ {\n                this.id = id;\n                this.blockId = blockId;\n\
+    \                this.zeros = zeros;\n            }\n\n            /* Applies\
+    \ Sha256 to a string and returns a hash. */\n            private static String\
+    \ applySha256(String input) {\n                try {\n                    MessageDigest\
+    \ digest = MessageDigest.getInstance(\"SHA-256\");\n                    /* Applies\
+    \ sha256 to our input */\n                    byte[] hash = digest.digest(input.getBytes(\"\
+    UTF-8\"));\n                    StringBuilder hexString = new StringBuilder();\n\
+    \                    for (byte elem : hash) {\n                        String\
+    \ hex = Integer.toHexString(0xff & elem);\n                        if (hex.length()\
+    \ == 1) {\n                            hexString.append('0');\n              \
+    \          }\n                        hexString.append(hex);\n               \
+    \     }\n                    return hexString.toString();\n                } catch\
+    \ (Exception e) {\n                    throw new RuntimeException(e);\n      \
+    \          }\n            }\n\n            @Override\n            public HashInfo\
+    \ call() {\n                String base = String.valueOf(blockId);\n\n       \
+    \         StringBuilder patternBuilder = new StringBuilder();\n              \
+    \  for (int i = 0; i < zeros; i++) {\n                    patternBuilder.append(\"\
+    0\");\n                }\n                String pattern = patternBuilder.toString();\n\
+    \n                Random random = new Random();\n                int magicNumber;\n\
+    \                String hash;\n                do {\n                    magicNumber\
+    \ = random.nextInt(Integer.MAX_VALUE);\n                    hash = applySha256(base\
+    \ + magicNumber);\n                } while (!(hash.substring(0, zeros).equals(pattern))\n\
+    \                        && !(Thread.interrupted()));\n\n                return\
+    \ new HashInfo(id, hash, magicNumber);\n            }\n        }\n\n        private\
+    \ static class HashInfo {\n            private int minerId;\n            private\
+    \ String hash;\n            private int magicNumber;\n\n            public HashInfo(int\
+    \ minerId, String hash, int magicNumber) {\n                this.minerId = minerId;\n\
+    \                this.hash = hash;\n                this.magicNumber = magicNumber;\n\
+    \            }\n        }\n    }\n}"
+  learner_created: false
+- name: test/BlockchainTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.stream.Collectors;
+
+
+    class BlockParseException extends Exception {
+        BlockParseException(String msg) {
+            super(msg);
+        }
+    }
+
+
+    class Block {
+
+        int id;
+        long timestamp;
+        long magic;
+        String hashprev;
+        String hash;
+
+        static Block parseBlock(String strBlock) throws BlockParseException {
+            if (strBlock.length() == 0) {
+                return null;
+            }
+
+            if (!(strBlock.contains("Block:")
+                && strBlock.contains("Timestamp:"))) {
+
+                return null;
+            }
+
+            Block block = new Block();
+
+            List<String> lines = strBlock
+                .lines()
+                .map(String::strip)
+                .filter(e -> e.length() > 0)
+                .collect(Collectors.toList());
+
+            if (lines.size() < 12) {
+                throw new BlockParseException("Every block should " +
+                    "contain at least 12 lines of data");
+            }
+
+            if (!lines.get(0).equals("Block:")) {
+                throw new BlockParseException("First line of every block " +
+                    "should be \"Block:\"");
+            }
+
+            if (!lines.get(1).startsWith("Created by")) {
+                throw new BlockParseException("Second line of every block " +
+                    "should start with \"Created by\"");
+            }
+
+            if (!lines.get(2).startsWith("Id:")) {
+                throw new BlockParseException("Third line of every block " +
+                    "should start with \"Id:\"");
+            }
+
+            String id = lines.get(2).split(":")[1]
+                .strip().replace("-", "");
+            boolean isNumeric = id.chars().allMatch(Character::isDigit);
+
+            if (!isNumeric) {
+                throw new BlockParseException("Id should be a number");
+            }
+
+            block.id = Integer.parseInt(id);
+
+
+
+            if (!lines.get(3).startsWith("Timestamp:")) {
+                throw new BlockParseException("4-th line of every block " +
+                    "should start with \"Timestamp:\"");
+            }
+
+            String timestamp = lines.get(3).split(":")[1]
+                .strip().replace("-", "");
+            isNumeric = timestamp.chars().allMatch(Character::isDigit);
+
+            if (!isNumeric) {
+                throw new BlockParseException("Timestamp should be a number");
+            }
+
+            block.timestamp = Long.parseLong(timestamp);
+
+
+            if (!lines.get(4).startsWith("Magic number:")) {
+                throw new BlockParseException("5-th line of every block " +
+                    "should start with \"Magic number:\"");
+            }
+
+            String magic = lines.get(4).split(":")[1]
+                .strip().replace("-", "");
+            isNumeric = magic.chars().allMatch(Character::isDigit);
+
+            if (!isNumeric) {
+                throw new BlockParseException("Magic number should be a number");
+            }
+
+            block.magic = Long.parseLong(magic);
+
+
+
+            if (!lines.get(5).equals("Hash of the previous block:")) {
+                throw new BlockParseException("6-th line of every block " +
+                    "should be \"Hash of the previous block:\"");
+            }
+
+            if (!lines.get(7).equals("Hash of the block:")) {
+                throw new BlockParseException("8-th line of every block " +
+                    "should be \"Hash of the block:\"");
+            }
+
+            String prevhash = lines.get(6).strip();
+            String hash = lines.get(8).strip();
+
+            if (!(prevhash.length() == 64 || prevhash.equals("0"))
+                || !(hash.length() == 64)) {
+
+                throw new BlockParseException("Hash length should " +
+                    "be equal to 64 except \"0\"");
+            }
+
+            block.hash = hash;
+            block.hashprev = prevhash;
+
+            if (!lines.get(9).startsWith("Block data:")) {
+                throw new BlockParseException("10-th line of every block " +
+                    "should start with \"Block data:\"");
+            }
+
+            return block;
+        }
+
+
+        static List<Block> parseBlocks(String output) throws BlockParseException {
+            String[] strBlocks = output.split("\n\n");
+
+            List<Block> blocks = new ArrayList<>();
+
+            for (String strBlock : strBlocks) {
+                Block block = parseBlock(strBlock.strip());
+                if (block != null) {
+                    blocks.add(block);
+                }
+            }
+
+            return blocks;
+        }
+    }
+
+    class Clue {
+        String zeros;
+        Clue(int n) {
+            zeros = "0".repeat(n);
+        }
+    }
+
+
+    public class BlockchainTest extends StageTest<Clue> {
+
+        List<String> previousOutputs = new ArrayList<>();
+
+        @Override
+        public List<TestCase<Clue>> generate() {
+            return List.of(
+                new TestCase<>(),
+                new TestCase<>()
+            );
+        }
+
+        @Override
+        public CheckResult check(String reply, Clue clue) {
+
+            if (previousOutputs.contains(reply)) {
+                return new CheckResult(false,
+                    "You already printed this text in the previous tests");
+            }
+
+            previousOutputs.add(reply);
+
+            List<Block> blocks;
+            try {
+                blocks = Block.parseBlocks(reply);
+            } catch (BlockParseException ex) {
+                return new CheckResult(false, ex.getMessage());
+            } catch (Exception ex) {
+                return CheckResult.wrong("");
+            }
+
+            if (blocks.size() != 5) {
+                return new CheckResult(false,
+                    "You should output 5 blocks, found " + blocks.size());
+            }
+
+            for (int i = 1; i < blocks.size(); i++) {
+                Block curr = blocks.get(i - 1);
+                Block next = blocks.get(i);
+
+                if (curr.id + 1 != next.id) {
+                    return new CheckResult(false,
+                        "Id`s of blocks should increase by 1");
+                }
+
+                if (next.timestamp < curr.timestamp) {
+                    return new CheckResult(false,
+                        "Timestamp`s of blocks should increase");
+                }
+
+                if (!next.hashprev.equals(curr.hash)) {
+                    return new CheckResult(false, "Two hashes aren't equal, " +
+                        "but should");
+                }
+            }
+
+
+            return CheckResult.correct();
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/5417#comment
+status: Unchecked
+record: -1
